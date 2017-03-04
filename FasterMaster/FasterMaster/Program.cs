@@ -6,6 +6,7 @@ using System.Windows;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.Net;
 
 namespace FasterMaster
 {
@@ -13,19 +14,101 @@ namespace FasterMaster
     {
         static void Main(string[] args)
         {
-            //RestartExplorer();
-            //SetPCIdle();
-            //DeleteTempFiles();
+            int userInput = 0;
+
+            
+
+            do
+            {
+                userInput = DisplayMenu();
+
+                if (userInput == 1)
+                {
+                    QuickClean();
+                }
+                else if (userInput == 2)
+                {
+                    DeepClean();
+                }
+                else if (userInput == 3)
+                {
+                    SuperClean();
+                }
+            } while (userInput != 4);
+
+            
+           
+
+        }
+
+        static public int DisplayMenu()
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("");
+                Console.WriteLine();
+                Console.WriteLine("1. Quick Clean");
+                Console.WriteLine("2. Deep Clean");
+                Console.WriteLine("3. Super Clean (admin needed)");
+                Console.WriteLine("4. exit");
+                int result;
+                if (Int32.TryParse(Console.ReadLine(), out result))
+                    return Convert.ToInt32(result);
+                else
+                    Console.WriteLine("Please enter a number");
+            }
+        }
+
+        static void QuickClean()
+        {
+            RestartExplorer();
             killInternetExplorer();
-            gpupdate();
-            cleanIEcookies();
+            SetPCIdle();
             cleanIETempFiles();
+            cleanIEcookies();
             cleanIEFormData();
-            //System.GC.Collect();
+            DeleteTempFiles();
+            Console.WriteLine("quickclean");
             Console.ReadLine();
         }
 
+        static void DeepClean()
+        {
+            RestartExplorer();
+            killInternetExplorer();
+            SetPCIdle();
+            cleanIETempFiles();
+            cleanIEcookies();
+            cleanIEFormData();
+            DeleteTempFiles();
+            GPUpdate();
+            Console.WriteLine("deepclean");
+            Console.ReadLine();
+        }
 
+        static void SuperClean()
+        {
+            Console.WriteLine("superclean");
+            Console.ReadLine();
+        }
+
+        static void GatherInformation()
+        {
+            //get computer name
+            string computername = System.Environment.MachineName;
+            //get IP address
+            string ipaddress = Dns.GetHostAddresses(Dns.GetHostName())[0].ToString();
+
+            SystemInfo si = new SystemInfo();       //Create an object of SystemInfo class.
+            si.getOperatingSystemInfo();            //Call get operating system info method which will display operating system information.
+            si.getProcessorInfo();                  //Call get  processor info method which will display processor info.
+        }
+
+        static void SendDataToAdmin()
+        {
+
+        }
 
         static void RestartExplorer()
         {
@@ -111,7 +194,7 @@ namespace FasterMaster
             }
         }
 
-        static void gpupdate()
+        static void GPUpdate()
         {
             FileInfo grouppolicyfile = new FileInfo("gpupdate.exe");
             Process proc = new Process();
@@ -128,5 +211,22 @@ namespace FasterMaster
             }
             Console.WriteLine("Group Policy Has been updated");            
         }
+
+        static void ScheduleCurrentUserProfileDelete()
+        {
+
+        }
+
+        static void SetPolicyClearOldProfiles()
+        {
+
+        }
+
+        static void DeleteUserRegKey()
+        {
+
+        }
+
+       
     }
 }
