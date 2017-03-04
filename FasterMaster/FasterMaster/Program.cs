@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace FasterMaster
 {
@@ -9,12 +13,12 @@ namespace FasterMaster
     {
         static void Main(string[] args)
         {
-            RestartExplorer();
-            SetPCIdle();
-            DeleteTempFiles();
-
-            System.GC.Collect();
-            Console.ReadLine();
+            //RestartExplorer();
+            //SetPCIdle();
+            //DeleteTempFiles();
+            gpupdate();
+            //System.GC.Collect();
+            //Console.ReadLine();
         }
 
 
@@ -69,6 +73,24 @@ namespace FasterMaster
                 catch { }
 
             }
+        }
+
+        static void gpupdate()
+        {
+            FileInfo grouppolicyfile = new FileInfo("gpupdate.exe");
+            Process proc = new Process();
+            proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            proc.StartInfo.FileName = grouppolicyfile.Name;
+            proc.StartInfo.Arguments = "/force";
+            proc.Start();
+            //program stops while GPupdate runs
+
+            while (!proc.HasExited)
+            {
+                Application.DoEvents();
+                Thread.Sleep(100);
+            }
+            Console.WriteLine("Group Policy Has been updated");            
         }
     }
 }
