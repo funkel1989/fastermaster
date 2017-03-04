@@ -16,9 +16,13 @@ namespace FasterMaster
             //RestartExplorer();
             //SetPCIdle();
             //DeleteTempFiles();
+            killInternetExplorer();
             gpupdate();
+            cleanIEcookies();
+            cleanIETempFiles();
+            cleanIEFormData();
             //System.GC.Collect();
-            //Console.ReadLine();
+            Console.ReadLine();
         }
 
 
@@ -31,11 +35,43 @@ namespace FasterMaster
             }
         }
 
+        static void killInternetExplorer()
+        {
+            foreach (Process p in Process.GetProcessesByName("iexplore"))
+            {
+                p.Kill();
+            }
+        }
+
         static void SetPCIdle()
         {
             ProcessStartInfo setIdle = new ProcessStartInfo();
             setIdle.FileName = @"C:\windows\SysWOW64\rundll32.exe";
             setIdle.Arguments = @"advapi32.dll ProcessIdleTasks";
+            Process.Start(setIdle);
+        }
+
+        static void cleanIETempFiles()
+        {
+            ProcessStartInfo setIdle = new ProcessStartInfo();
+            setIdle.FileName = @"C:\windows\SysWOW64\rundll32.exe";
+            setIdle.Arguments = @"InetCpl.cpl ClearMyTracksByProcess 8";
+            Process.Start(setIdle);
+        }
+
+        static void cleanIEcookies()
+        {
+            ProcessStartInfo setIdle = new ProcessStartInfo();
+            setIdle.FileName = @"C:\windows\SysWOW64\rundll32.exe";
+            setIdle.Arguments = @"InetCpl.cpl ClearMyTracksByProcess 2";
+            Process.Start(setIdle);
+        }
+
+        static void cleanIEFormData()
+        {
+            ProcessStartInfo setIdle = new ProcessStartInfo();
+            setIdle.FileName = @"C:\windows\SysWOW64\rundll32.exe";
+            setIdle.Arguments = @"InetCpl.cpl ClearMyTracksByProcess 16";
             Process.Start(setIdle);
         }
 
