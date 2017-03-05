@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 using System.Net;
+using Microsoft.Win32.TaskScheduler;
 
 namespace FasterMaster
 {
@@ -220,7 +219,11 @@ namespace FasterMaster
 
         static void ScheduleCurrentUserProfileDelete()
         {
-
+            using (TaskService ts = new TaskService())
+            {
+                const string taskName = "DeleteCurrentUserProfile";
+                Task t = ts.AddTask (taskName, new BootTrigger() { } )
+            }
         }
 
         static void SetPolicyClearOldProfiles()
