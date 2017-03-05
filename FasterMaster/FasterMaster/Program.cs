@@ -88,7 +88,7 @@ namespace FasterMaster
 
         static void SuperClean()
         {
-            GatherInformation();
+            SetPolicyClearOldProfiles();
             Console.WriteLine("");
             Console.ReadLine();
         }
@@ -219,16 +219,14 @@ namespace FasterMaster
 
         static void ScheduleCurrentUserProfileDelete()
         {
-            using (TaskService ts = new TaskService())
-            {
-                const string taskName = "DeleteCurrentUserProfile";
-                Task t = ts.AddTask (taskName, new BootTrigger() { } )
-            }
+            
         }
 
         static void SetPolicyClearOldProfiles()
         {
-
+            Microsoft.Win32.RegistryKey key;
+            key = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\Policies\\Microsoft\\Windows\\System\\CleanupProfiles");
+            key.SetValue("CleanupProfiles", "30");
         }
 
         static void DeleteUserRegKey()
