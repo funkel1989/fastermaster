@@ -5,15 +5,22 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System.Net;
+using System.Diagnostics.PerformanceData;
 using Microsoft.Win32.TaskScheduler;
+
 
 namespace FasterMaster
 {
     public class Program
     {
-        static void Main(string[] args)
+       static PerformanceCounter cpu;
+       static PerformanceCounter ram;        
+
+        public static void Main(string[] args)
         {
-            int userInput = 0;
+            
+            
+           int userInput = 0;
 
             
 
@@ -86,9 +93,11 @@ namespace FasterMaster
             Console.ReadLine();
         }
 
-        static void SuperClean()
+        public static void SuperClean()
         {
-            SetPolicyClearOldProfiles();
+            GatherInformation();
+            GetUsageInformation();
+            GetDiskInformation();
             Console.WriteLine("");
             Console.ReadLine();
         }
@@ -108,7 +117,41 @@ namespace FasterMaster
             Console.WriteLine(si);
 
             string username = Environment.UserName;
+            Console.WriteLine(username);
+
+            
+
         }
+
+        public static void GetUsageInformation()
+        {
+            cpu = new PerformanceCounter();
+            cpu.CategoryName = "Processor";
+            cpu.CounterName = "% Processor Time";
+            cpu.InstanceName = "_Total";
+
+            ram = new PerformanceCounter("Memory", "Available Mbytes");
+            
+
+            Console.WriteLine(cpu);
+            Console.WriteLine(ram);            
+        }
+
+        public static void GetDiskInformation()
+        {
+            DriveInfo[] drives = DriveInfo.GetDrives();
+            foreach (DriveInfo drive in drives)
+            {
+
+                Console.WriteLine(drive.Name);
+                if (drive.IsReady) Console.WriteLine("The drive name is " + drive.VolumeLabel);
+                if (drive.IsReady) Console.WriteLine("Total size of the drive is " +drive.TotalSize);
+                if (drive.IsReady) Console.WriteLine("Available free space on the drive is " + drive.AvailableFreeSpace);
+                
+
+            }
+        }
+      
 
         static void SendDataToAdmin()
         {
