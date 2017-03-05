@@ -10,7 +10,7 @@ using System.Net;
 
 namespace FasterMaster
 {
-    public static class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -89,20 +89,26 @@ namespace FasterMaster
 
         static void SuperClean()
         {
-            Console.WriteLine("superclean");
+            GatherInformation();
+            Console.WriteLine("");
             Console.ReadLine();
         }
 
-        static void GatherInformation()
+        public static void GatherInformation()
         {
             //get computer name
             string computername = System.Environment.MachineName;
+            Console.WriteLine(computername);
             //get IP address
             string ipaddress = Dns.GetHostAddresses(Dns.GetHostName())[0].ToString();
+            Console.WriteLine(ipaddress);
 
             SystemInfo si = new SystemInfo();       //Create an object of SystemInfo class.
             si.getOperatingSystemInfo();            //Call get operating system info method which will display operating system information.
             si.getProcessorInfo();                  //Call get  processor info method which will display processor info.
+            Console.WriteLine(si);
+
+            string username = Environment.UserName;
         }
 
         static void SendDataToAdmin()
@@ -223,6 +229,11 @@ namespace FasterMaster
         }
 
         static void DeleteUserRegKey()
+        {
+
+        }
+
+        static void BackupStickyNotesFiles()
         {
 
         }
