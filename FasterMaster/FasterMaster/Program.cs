@@ -236,7 +236,24 @@ namespace FasterMaster
 
         static void BackupStickyNotesFiles()
         {
+            string folderPath = string.Empty;
+            folderPath = System.Environment.GetEnvironmentVariable("Roaming");
 
+            //create folder to hold sticky notes backup file
+            try
+            {
+                if (!Directory.Exists("H:\\StickyNoteBackup")) 
+                    {
+                    Directory.CreateDirectory("H:\\StickyNoteBackup");
+                    }
+            }
+            catch(Exception ex)
+            {
+                //handle errors here
+            }
+
+
+            File.Copy(folderPath + "\\Microsoft\\Sticky Notes\\", "H:\\StickyNoteBackup");
         }
 
        
