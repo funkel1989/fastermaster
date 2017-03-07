@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Diagnostics.PerformanceData;
 using Microsoft.Win32.TaskScheduler;
-
+using System.Reflection;
 
 namespace FasterMaster
 {
@@ -125,16 +125,18 @@ namespace FasterMaster
 
         public static void GetUsageInformation()
         {
-            cpu = new PerformanceCounter();
-            cpu.CategoryName = "Processor";
-            cpu.CounterName = "% Processor Time";
-            cpu.InstanceName = "_Total";
+            /*  cpu = new PerformanceCounter();
+              cpu.CategoryName = "Processor";
+              cpu.CounterName = "% Processor Time";
+              cpu.InstanceName = "_Total";
 
-            ram = new PerformanceCounter("Memory", "Available Mbytes");
-            
+              ram = new PerformanceCounter("Memory", "Available Mbytes");
 
-            Console.WriteLine(cpu);
-            Console.WriteLine(ram);            
+
+              Console.WriteLine(cpu);
+              Console.WriteLine(ram);*/
+
+          //  PropertyInfo[] properties = ctr.GetType().GetProperties();            
         }
 
         public static void GetDiskInformation()
